@@ -6,8 +6,10 @@ Plugin Hub.
 """
 
 from pathlib import Path
+from typing import Annotated
 
 import typer
+from typer import Argument, Option
 
 from loot_logger_combine.files import combine_files, copy_file, find_files
 from loot_logger_combine.types import PathMap
@@ -25,7 +27,10 @@ app = typer.Typer()
 # MARK: Main
 
 
-def main(inputs: list[str], output: str) -> None:
+def main(
+    inputs: Annotated[list[str], Argument(help="Input directories.")],
+    output: Annotated[str, Option("-o", "--output", help="Output directory.")],
+) -> None:
     """The main function of the program."""
 
     # Find the files in each directory
