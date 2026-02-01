@@ -2,11 +2,19 @@
 TODO: Docstring
 """
 
+import glob
 import json
 import os
 import shutil
+from pathlib import Path
 
 from .models import FileMatch, FileNoMatch, Record
+
+
+def find_files(path: Path, extension: str = ".log") -> set[str]:
+    """Finds all files with a given extension in a given directory."""
+    matches = glob.glob(str(path / Path(f"**/*{extension}")), recursive=True)
+    return {os.path.relpath(Path(match), path) for match in matches}
 
 
 def combine_files(
