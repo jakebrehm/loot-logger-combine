@@ -29,8 +29,8 @@ def main(inputs: list[str], output: str) -> None:
     """The main function of the program."""
 
     # Find the files in each directory
-    result: PathMap = {i: find_files(Path(i)) for i in inputs}
-    matched, unmatched = match_paths(result)
+    path_map: PathMap = {i: find_files(Path(i)) for i in inputs}
+    matched, unmatched = match_paths(path_map)
 
     # Copy the structure of the folders in each directory
     combine_directory_structures(inputs, output)

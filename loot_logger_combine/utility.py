@@ -14,7 +14,9 @@ from .types import PathMap
 def match_paths(path_map: PathMap) -> tuple[list[FileMatch], list[FileNoMatch]]:
     """Determines which files match or don't match across directories."""
 
-    # Determine which files exist across all directories
+    # TODO: This function can be made much more efficient, but it works
+
+    # Find full matches (files that exist in all directories)
     matched_paths: set[str] = set.intersection(*path_map.values())
     result_matches: list[FileMatch] = [
         FileMatch(list(path_map.keys()), path) for path in matched_paths
@@ -27,7 +29,24 @@ def match_paths(path_map: PathMap) -> tuple[list[FileMatch], list[FileNoMatch]]:
             if relative_path in matched_paths:
                 continue
             result_no_matches.append(FileNoMatch(base_path, relative_path))
-    return result_matches, result_no_matches
+
+    # Correct files that exist in multiple but not all directories
+    new_matches: list[FileMatch] = result_matches.copy()
+    new_no_matches: list[FileNoMatch] = []
+    temporary: dict[str, list[FileNoMatch]] = {}
+    for match in result_no_matches:
+        temporary.setdefault(match.relative, []).append(match)
+
+    for relative_path, matches in temporary.items():
+        if len(matches) > 1:
+            new_match = FileMatch(
+                [match.base for match in matches], relative_path
+            )
+            new_matches.append(new_match)
+        else:
+            new_no_matches.append(matches[0])
+
+    return new_matches, new_no_matches
 
 
 def combine_directory_structures(
