@@ -1,0 +1,9 @@
+[project]
+name = "loot-logger-combine"
+version = "0.1.0"
+description = "Combines multiple internal Loot Logger data directories into a single directory."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "typer>=0.21.1",
+]
