@@ -8,7 +8,7 @@ import os
 import shutil
 from pathlib import Path
 
-from .models import FileMatch, FileNoMatch, Record
+from .models import Match, Record
 
 
 def find_files(path: Path, extension: str = ".log") -> set[str]:
@@ -18,9 +18,7 @@ def find_files(path: Path, extension: str = ".log") -> set[str]:
 
 
 def combine_files(
-    match: FileMatch,
-    output_directory: str,
-    sort: bool = True,
+    match: Match, output_directory: str, sort: bool = True
 ) -> None:
     """Combines matched files into a single file in the output directory."""
     records: list[Record] = []
@@ -35,7 +33,7 @@ def combine_files(
         file.write("\n".join([record.to_json_line() for record in records]))
 
 
-def copy_file(non_match: FileNoMatch, output_directory: str) -> None:
+def copy_file(match: Match, output_directory: str) -> None:
     """Copies an unmatched file to the output directory."""
-    output_path = os.path.join(output_directory, non_match.relative)
-    shutil.copy2(non_match.path(), output_path)
+    output_path = os.path.join(output_directory, match.relative)
+    shutil.copy2(match.paths()[0], output_path)

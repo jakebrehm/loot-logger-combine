@@ -30,18 +30,15 @@ def main(inputs: list[str], output: str) -> None:
 
     # Find the files in each directory
     path_map: PathMap = {i: find_files(Path(i)) for i in inputs}
-    matched, unmatched = match_paths(path_map)
+    matches = match_paths(path_map)
 
     # Copy the structure of the folders in each directory
     combine_directory_structures(inputs, output)
 
-    # Combine the files that match
-    for item in matched:
-        combine_files(item, output)
-
-    # Copy the files that don't match
-    for item in unmatched:
-        copy_file(item, output)
+    # Copy or combine the files
+    for match in matches:
+        function = combine_files if len(match.bases) > 1 else copy_file
+        function(match, output)
 
 
 if __name__ == "__main__":

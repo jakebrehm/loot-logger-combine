@@ -13,7 +13,7 @@ from .types import RecordJSON
 
 
 @dataclass
-class FileMatch:
+class Match:
     """Stores data for a file that exists in multiple directories."""
 
     bases: list[str]
@@ -26,18 +26,6 @@ class FileMatch:
     def paths(self) -> list[str]:
         """Returns the full paths to the files."""
         return [os.path.join(base, self.relative) for base in self.bases]
-
-
-@dataclass
-class FileNoMatch:
-    """Stores data for a file that does not exist in multiple directories."""
-
-    base: str
-    relative: str
-
-    def path(self) -> str:
-        """Returns the full path to the file."""
-        return os.path.join(self.base, self.relative)
 
 
 @dataclass
