@@ -1,5 +1,5 @@
 """
-TODO: Docstring
+Contains utility functions used across the package.
 """
 
 import os
@@ -12,7 +12,7 @@ from .types import PathMap
 
 
 def match_paths(path_map: PathMap) -> tuple[list[FileMatch], list[FileNoMatch]]:
-    """"""  # TODO: Docstring
+    """Determines which files match or don't match across directories."""
 
     # Determine which files exist across all directories
     matched_paths: set[str] = set.intersection(*path_map.values())

@@ -1,5 +1,5 @@
 """
-TODO: Docstring
+Contains functions for working with files and the file system.
 """
 
 import glob
@@ -22,7 +22,7 @@ def combine_files(
     output_directory: str,
     sort: bool = True,
 ) -> None:
-    """"""  # TODO: Docstring
+    """Combines matched files into a single file in the output directory."""
     records: list[Record] = []
     for path in match.paths():
         with open(path, "r") as file:
@@ -36,6 +36,6 @@ def combine_files(
 
 
 def copy_file(non_match: FileNoMatch, output_directory: str) -> None:
-    """"""  # TODO: Docstring
+    """Copies an unmatched file to the output directory."""
     output_path = os.path.join(output_directory, non_match.relative)
     shutil.copy2(non_match.path(), output_path)

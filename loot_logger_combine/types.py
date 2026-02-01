@@ -1,5 +1,5 @@
 """
-TODO: Docstring
+Contains types used across the package.
 """
 
 

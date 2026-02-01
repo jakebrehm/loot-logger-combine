@@ -1,5 +1,5 @@
 """
-TODO: Docstring
+Contains models used across the package.
 """
 
 import datetime as dt
@@ -18,7 +18,7 @@ type RecordJSON = dict
 
 @dataclass
 class FileMatch:
-    """"""  # TODO: Docstring
+    """Stores data for a file that exists in multiple directories."""
 
     bases: list[str]
     relative: str
@@ -28,25 +28,25 @@ class FileMatch:
         assert self.bases, "base must not be empty"
 
     def paths(self) -> list[str]:
-        """"""  # TODO: Docstring
+        """Returns the full paths to the files."""
         return [os.path.join(base, self.relative) for base in self.bases]
 
 
 @dataclass
 class FileNoMatch:
-    """"""  # TODO: Docstring
+    """Stores data for a file that does not exist in multiple directories."""
 
     base: str
     relative: str
 
     def path(self) -> str:
-        """"""  # TODO: Docstring
+        """Returns the full path to the file."""
         return os.path.join(self.base, self.relative)
 
 
 @dataclass
 class Record:
-    """"""  # TODO: Docstring
+    """Stores data for a single record contained in Loot Logger log files."""
 
     name: str
     level: int
@@ -57,6 +57,7 @@ class Record:
 
     @classmethod
     def from_json(cls, data: RecordJSON):
+        """Decodes JSON/dictionary data into an instance of this class."""
         return cls(
             name=data["name"],
             level=data["level"],
@@ -67,6 +68,7 @@ class Record:
         )
 
     def to_json(self) -> RecordJSON:
+        """Encodes an instance of this class into JSON/dictionary data."""
         return {
             "name": self.name,
             "level": self.level,
@@ -77,4 +79,5 @@ class Record:
         }
 
     def to_json_line(self) -> str:
+        """Formats the instance as a JSON Lines string."""
         return json.dumps(self.to_json())
