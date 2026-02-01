@@ -7,11 +7,7 @@ import json
 import os
 from dataclasses import dataclass, field
 
-# MARK: Types
-
-
-type RecordJSON = dict
-
+from .types import RecordJSON
 
 # MARK: Models
 
